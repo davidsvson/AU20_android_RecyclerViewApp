@@ -2,6 +2,7 @@ package com.example.recyclerviewapp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,6 @@ class StudentsRecycleAdapter(val context: Context, val students : List<Student> 
         holder.textClassName.text = student.className
         holder.doneButton.isChecked = student.done
         holder.studentPosition = position
-
     }
 
     fun removeStudent(position: Int) {
@@ -63,6 +63,12 @@ class StudentsRecycleAdapter(val context: Context, val students : List<Student> 
             var studentPosition = 0
 
             init {
+                itemView.setOnClickListener {
+                    val intent = Intent(context , CreateAndEditStudentActivity::class.java)
+                    intent.putExtra(STUDENT_POSITION_KEY , studentPosition)
+                    context.startActivity(intent)
+                }
+
                 doneButton.setOnClickListener {
                     DataManager.students[studentPosition].done = doneButton.isChecked
                     Toast.makeText(context, "${DataManager.students[studentPosition].name} is done",

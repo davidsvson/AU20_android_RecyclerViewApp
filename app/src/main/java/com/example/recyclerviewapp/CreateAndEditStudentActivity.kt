@@ -4,8 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
-import kotlinx.android.synthetic.main.student_list_view.*
+
+const val STUDENT_POSITION_KEY = "STUDENT_POSITION"
+const val POSITION_NOT_SET = -1
 
 class CreateAndEditStudentActivity : AppCompatActivity() {
 
@@ -18,14 +19,39 @@ class CreateAndEditStudentActivity : AppCompatActivity() {
 
         nameTextView = findViewById(R.id.nameTextView)
         classTextView = findViewById(R.id.classTextView)
-
         var saveButton = findViewById<Button>(R.id.saveButton)
 
-        saveButton.setOnClickListener {
-            addNewStudent()
+
+        var studentPosition = intent.getIntExtra(STUDENT_POSITION_KEY, POSITION_NOT_SET )
+
+        if (studentPosition != POSITION_NOT_SET) {  // edit student
+            displayStudent(studentPosition)
+            saveButton.setOnClickListener {
+                editStudent(studentPosition)
+            }
+        } else {                                    // add new student
+            saveButton.setOnClickListener {
+                addNewStudent()
+            }
         }
 
     }
+
+    fun editStudent(position: Int) {
+        DataManager.students[position].name = nameTextView.text.toString()
+        DataManager.students[position].className = classTextView.text.toString()
+
+        finish()
+    }
+
+
+    fun displayStudent(position :Int) {
+        val student = DataManager.students[position]
+
+        nameTextView.setText(student.name)
+        classTextView.setText(student.className)
+    }
+
 
     fun addNewStudent() {
         val name = nameTextView.text.toString()

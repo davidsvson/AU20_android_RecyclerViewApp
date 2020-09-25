@@ -1,5 +1,7 @@
 package com.example.recyclerviewapp
 
+
+//singleton
 object DataManager {
 
     val students = mutableListOf<Student>()
@@ -17,10 +19,6 @@ object DataManager {
         students.add(Student("Wedieu", "AU20"))
         students.add(Student("Carolina", "AU20"))
         students.add(Student("David", "AU20"))
-
-
     }
-
-
 
 }
